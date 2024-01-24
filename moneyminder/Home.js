@@ -1,85 +1,100 @@
 import * as Font from "expo-font";
-import React, { useEffect, Component } from 'react';
-import { AppRegistry,Text, View, Dimensions,StyleSheet,processColor } from 'react-native';
-import {PieChart} from 'react-native-charts-wrapper';
-
-import {
-  LineChart,
-  BarChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
-
+import React from 'react';
+import { FlatList, Text, View, Dimensions, StyleSheet, processColor } from 'react-native';
+import { BarChart } from 'react-native-chart-kit';
 
 const styles = StyleSheet.create({
   text: {
     fontFamily: 'GT',
     fontSize: 20,
-    letterSpacing: 1, 
-    color:'#112A32',
-    marginTop: 20, 
-    marginBottom: 10, 
-    textAlign: 'center'
+    letterSpacing: 1,
+    color: '#112A32',
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 15,
+  },
+  container: {
+    borderRadius: 10,
+    elevation: 5, // 그림자 높이
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    alignContent:'space-around',
+    verticalAlign:'middle',
+    shadowRadius: 4,
+    marginVertical: 4,
+    marginHorizontal: 16, // 좌우 여백 조정
   },
 });
 
+const data = {
+  labels: ["월", "화", "수", "목", "금", "토", "일"],
+  datasets: [
+    {
+      data: [
+        Math.random() * 10000,
+        Math.random() * 10000,
+        Math.random() * 10000,
+        Math.random() * 10000,
+        Math.random() * 10000,
+        Math.random() * 10000,
+        Math.random() * 10000,
+      ],
+    },
+  ],
+};
+
+function ChartItem({ item }) {
+  return (
+    <View style={styles.container}>
+      <BarChart
+        data={item}
+        width={Dimensions.get("window").width - 32} // from react-native
+        height={250}
+        yAxisLabel=""
+        yAxisSuffix="원"
+        yAxisInterval={1} // optional, defaults to 1
+        chartConfig={{
+          backgroundColor: "#F0F5E0",
+          backgroundGradientFrom: "#F0F5E0",
+          backgroundGradientTo: "#F0F5E0",
+          barPercentage: 0.7,
+          decimalPlaces: 0, // optional, defaults to 2dp
+          color: (opacity = 0.8) => `rgba(40,119,57, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          style: {
+            borderRadius: 16,
+            elevation: 5,
+            shadowColor: 'rgba(0,0,0,0.2)',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.8,
+            shadowRadius: 4,
+          },
+          propsForBackgroundLines: {
+            stroke: 'rgba(0,0,0,0.2)',
+          },
+        }}
+        bezier
+        style={{
+          borderRadius: 20,
+        }}
+      />
+    </View>
+  );
+}
 
 function Chart() {
-    return (
-      <View>
-        <Text style = {styles.text}>한 눈에 보는 내 지출</Text>
-        <LineChart
-          data={{
-            labels: ["1월", "2월", "3월", "4월", "5월", "6월","7월","8월","9월","10월","11월","12월"],
-            datasets: [
-              {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100
-                ]
-              }
-            ]
-          }}
-          width={Dimensions.get("window").width} // from react-native
-          height={250}
-          yAxisLabel="$"
-          yAxisSuffix="k"
-          yAxisInterval={1} // optional, defaults to 1
-          chartConfig={{
-            backgroundColor: "#9DAC39",
-            backgroundGradientFrom: "#3CB48C",
-            backgroundGradientTo: "#9DAC39",
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16
-            },
-            propsForDots: {
-              r: "6",
-              strokeWidth: "2",
-              stroke: "#164131"
-            }
-          }}
-          bezier
-          style={{
-            marginVertical: 8,
-            borderRadius: 16
-          }}
-        />
-      </View>
-    );
-  }
+  return (
+    <>
+      <Text style={styles.text}>이번주 지출 현황</Text>
+      <FlatList
+        data={[data]}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <ChartItem item={item} />}
+        horizontal
+      />
+    </>
+  );
+}
 
-  export default Chart;
+export default Chart;
