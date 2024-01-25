@@ -26,6 +26,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7d8dee05-e334-4ace-a016-fa6d05c3c99a"
+      }
+    },
+    "owner": "songryu"
   }
 }
