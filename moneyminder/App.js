@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Home';
 import * as Font from 'expo-font';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator(); //김송류 바보
 
 const fetchFonts = () => {
   return Font.loadAsync({
