@@ -1,13 +1,16 @@
 import * as Font from "expo-font";
 import React, { useState, useEffect } from 'react';
-import { Animated, FlatList, Text, View, Dimensions, StyleSheet, processColor } from 'react-native';
+import { Animated, FlatList, Text, View, Dimensions, StyleSheet, processColor, TouchableOpacity, ImageBackground, Modal, Button } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 
 const styles = StyleSheet.create({
   textContainer: {
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: 15,
+    marginBottom: 15,
     marginLeft: 15,
+    fontSize: 18,
+    fontFamily: 'GT',
+    color: '#333',
   },
   text: {
     fontFamily: 'GT',
@@ -34,6 +37,30 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     backgroundColor: '#ffffff',
     marginTop: 30,
+    borderRadius: 10,
+    elevation: 5,
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.8,
+    alignContent: 'space-around',
+    verticalAlign: 'middle',
+    shadowRadius: 4,
+    marginVertical: 4,
+    marginHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    width: Dimensions.get("window").width - 40,
+    height: Dimensions.get("window").height - 300,
+    justifyContent: 'space-between', // 팝업 창 내의 요소를 위아래로 분배
+  },
+  closeButton: {
+    marginTop: 10, // 닫기 버튼과 하단 여백 설정
+    
   },
 });
 
@@ -62,6 +89,7 @@ function ChartItem({ item, scrollY }) {
   });
 
   const [selectedBarIndex, setSelectedBarIndex] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleBarPress = (bar) => {
     if (bar && bar.index !== undefined) {
@@ -69,12 +97,29 @@ function ChartItem({ item, scrollY }) {
     }
   };
 
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
   return (
     <View>
-      <Animated.View style={[styles.textContainer, { transform: [{ translateY }] }]}>
-        <Text style={styles.text}>이번주 지출 현황</Text>
-      </Animated.View>
+      <View style={styles.emptyContainer}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 30 }}>
+          <Text style={{ fontFamily: 'GT', fontSize: 18, color: '#333' }}>당신의 소비가 가장 큰 품목은?</Text>
+        </View>
+        <TouchableOpacity onPress={toggleModal}>
+          <ImageBackground
+            source={require('./assets/images/expense.png')}
+            style={{
+              width: 150,
+              height: 150,
+              resizeMode: 'contain',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.container}>
+        <Text style={styles.textContainer}>이번주 지출 현황</Text>
         <BarChart
           data={item}
           width={Dimensions.get("window").width - 32}
@@ -88,7 +133,7 @@ function ChartItem({ item, scrollY }) {
             backgroundGradientTo: "#ffffff",
             barPercentage: 0.7,
             decimalPlaces: 0,
-            color: (opacity, index) => (selectedBarIndex === index ? 'red' : `rgba(91, 136, 200, ${opacity})`),
+            color: (opacity, index) => (selectedBarIndex === index ? 'red' : `rgba(255, 116, 147, ${opacity})`),
             labelColor: (opacity) => `rgba(0, 0, 0, ${opacity})`,
             style: {
               borderRadius: 16,
@@ -109,8 +154,19 @@ function ChartItem({ item, scrollY }) {
           onPress={handleBarPress}
         />
       </View>
-     
-      <View style={styles.emptyContainer} />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleModal}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.modalContent}>
+            <Text>팝업 창 내용</Text>
+            <Button title="close" onPress={toggleModal} style={styles.closeButton} color = 'dimgrey' />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
