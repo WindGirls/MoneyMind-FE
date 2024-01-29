@@ -27,7 +27,11 @@ function MessageScreen() {
 
 function BottomTabNavigationApp() {
   return (
-    <Tab.Navigator initialRouteName="Home">
+    <Tab.Navigator initialRouteName="Home"
+    tabBarOptions = {{
+      activeTintColor: 'hotpink',
+      inactiveTintColor: 'gray',
+    }}>
       <Tab.Screen
         name="Home"
         component={HomeScreen}
