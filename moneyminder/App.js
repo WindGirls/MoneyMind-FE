@@ -4,10 +4,11 @@ import AppLoading from 'expo-app-loading';
 import { StyleSheet, View, SafeAreaView, Image, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Expense from './Expense';
 import Home from './Home';
 import * as Font from 'expo-font';
 
-const Stack = createStackNavigator(); //김송류 바보
+const Stack = createStackNavigator();
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -37,21 +38,20 @@ export default function App() {
 
   if (!fontLoaded) {
     return <AppLoading />;
+    
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Loading">
-        {loading ? (
-          <Stack.Screen name="   " component={LoadingScreen} />
-        ) : (
-          <Stack.Screen name="   " component={Home} />
-        )}
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Expense" component={Expense} />
+        {/* 추가 스크린은 여기에 계속해서 등록하면 됩니다. */}
       </Stack.Navigator>
-      <StatusBar style="auto" />
     </NavigationContainer>
   );
 }
+
 
 const LoadingScreen = () => (
   <SafeAreaView style={styles.container}>
@@ -62,7 +62,7 @@ const LoadingScreen = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FCF7FC',
+    backgroundColor: "#ffffff",
     alignItems: 'center',
     justifyContent: 'center',
   },
