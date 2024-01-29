@@ -177,6 +177,7 @@ function Chart() {
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
+    
   );
 
   return (
