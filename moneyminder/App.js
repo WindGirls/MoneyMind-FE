@@ -6,7 +6,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Expense from './Expense';
 import Home from './Home';
+import Constants from 'expo-constants';
+
 import * as Font from 'expo-font';
+
 
 const Stack = createStackNavigator();
 
@@ -16,9 +19,38 @@ const fetchFonts = () => {
   });
 };
 
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [fontLoaded, setFontLoaded] = useState(false);
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              if (!Constants) {
+                  console.error('Constants is null or undefined');
+                  return;
+              }
+              const { manifest } = Constants;
+              console.log(manifest);
+              if (!manifest) {
+                  console.error('Manifest is null or undefined');
+                  return;
+              }
+
+              const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:8080/api/account/test`;
+              const response = await axios.get(baseURL);
+              setData(response.data);
+              console.log('Response:', response.data);
+          } catch (error) {
+              console.error('Error fetching data:', error);
+          }
+      };
+
+      fetchData();
+  }, []);
 
   useEffect(() => {
     const loadFonts = async () => {

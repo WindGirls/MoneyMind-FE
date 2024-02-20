@@ -1,85 +1,71 @@
-
 import React, { useState, useEffect } from 'react';
 import { Calendar as RNCalendar } from 'react-native-calendars';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
+import ExpenseModel from './frontendExpenseModel'; // 실제 파일 경로로 수정 필요
+import axios from 'axios';
+
 
 
 const getCategoryEmoji = (category) => {
-  // 카테고리에 따라 이모지를 반환하는 함수
   switch (category) {
-    case 'Food':
+    case 1:
       return '🍔';
-    case 'Transportation':
+    case 2:
       return '🚗';
-    case 'Shopping':
+    case 3:
       return '🛍️';
-    // 추가적인 카테고리에 대한 이모지 지정 가능
     default:
       return '❓';
   }
 };
 
 const Calendar = () => {
+  const [data, setData] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-  const [expenseData, setExpenseData] = useState({
-    '2022-01-25': [
-      { id: '1', category: 'Food', amount: 20 },
-      { id: '2', category: 'Transportation', amount: 15 },
-      { id: '3', category: 'Shopping', amount: 30 },
-    ],
-    '2022-01-30': [
-      { id: '1', category: 'Food', amount: 20000 },
-      { id: '2', category: 'Transportation', amount: 15 },
-    ],
-    // ... 기타 날짜에 대한 더미 지출 내역
-  });
+  const [expenseData, setExpenseData] = useState([]);
 
-  useEffect(() => {
-    const fetchDummyData = async () => {
-      const dummyData = await fetchExpenseDataForDate(selectedDate);
-      setExpenseData((prevData) => ({
-        ...prevData,
-        [selectedDate]: dummyData,
-      }));
-    };
-    // 선택된 날짜가 있을 때만 데이터를 업데이트
-    if (selectedDate) {
-      fetchDummyData();
-    }
-
-    fetchDummyData();
-  }, [selectedDate]);
 
   const onDayPress = async (day) => {
     setSelectedDate(day.dateString);
-    const expenseDataForSelectedDate = await fetchExpenseDataForDate(day.dateString);
+    const expenseDataForSelectedDate = await fetchUrl(day.dateString);
+    //여기?
+    console.log("expenseDataForSelectedDate", expenseDataForSelectedDate);
     setExpenseData({ ...expenseData, [day.dateString]: expenseDataForSelectedDate });
+    console.log("expenseData", response.data);
   };
 
-  const fetchExpenseDataForDate = async (selectedDate) => {
-    const generateRandomExpenseItem = (id) => ({
-      id,
-      category: categories[Math.floor(Math.random() * categories.length)],
-      amount: Math.floor(Math.random() * 100),
-    });
-  
-    const categories = ['Food', 'Transportation', 'Shopping', 'Entertainment', 'Others'];
-    const dummyData = Array.from({ length: 3 }, (_, index) => generateRandomExpenseItem(index + 1));
-    
-    return dummyData;
-    // return [
-    //   { id: '1', category: 'Food', amount: 20 },
-    //   { id: '2', category: 'Transportation', amount: 15 },
-    //   { id: '3', category: 'Shopping', amount: 30 },
-    //   // ... 기타 지출 내역
-    // ];
-  };
+  useEffect(() => {
+    fetchUrl();
+  }, []);
+
+
+
+  async function fetchUrl(selectedDate) {
+    console.log("-----fetchUrl--------");
+
+    try {
+      console.log(`http://172.20.10.2:8080/api/account/` + `${selectedDate}` + `/` + `1`);
+      const baseURL = `http://172.20.10.2:8080/api/account/` + `${selectedDate}` + `/` + `1`;
+      const response = await axios.get(baseURL);
+      setExpenseData(response.data);
+      const json = response.data;
+      console.log('Response:', json);
+      console.log('Fetched all expense data:', expenseData);
+      return response.data;
+    }
+    catch (error) {
+      console.warn("🤬", error);
+      console.error("에러 발생", error);
+      return []; // 또는 다른 처리 방법 적용
+    }
+  }
+
 
   const renderExpenseItem = ({ item }) => (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 8 }}>
-      <Text style={styles.categoryText}>{getCategoryEmoji(item.category)}</Text>
+    <View style={styles.expenseItem}>
+      <Text style={styles.categoryText}>{getCategoryEmoji(item.place)}</Text>
       <Text style={{ fontSize: 16 }}>{item.category}</Text>
-      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{`$${item.amount}`}</Text>
+      <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{`Deposit: ${item.deposit}, Withdrawal: ${item.withdrawal}, Place: ${typeof item.place === 'number' ? getCategoryEmoji(item.place) : item.place}`}</Text>
     </View>
   );
 
@@ -87,30 +73,24 @@ const Calendar = () => {
     <View style={styles.container}>
       <RNCalendar onDayPress={onDayPress} markedDates={{ [selectedDate]: { selected: true, selectedColor: '#FF1493' } }} />
       <View style={{ marginTop: 16 }}>
-
-   {expenseData[selectedDate] && (
-  <View style={styles.container2}>
-    <Text style={styles.titleText}>{`지출 내역 for ${selectedDate}`}</Text>
-    <FlatList
-      data={expenseData[selectedDate]}
-      keyExtractor={(item) => item.id}
-      renderItem={renderExpenseItem}
-    />
-  </View>
-)}
-{!expenseData[selectedDate] && (
-  <View style={styles.container2}>
-    <Text style={styles.titleText}>{`지출 내역 for ${selectedDate}`}</Text>
-    <Text style={{ textAlign: 'center' }}>지출 내역이 없습니다.</Text>
-  </View>
-)}
-
-
-
+        {expenseData && (
+          <View style={styles.container2}>
+            <Text style={styles.titleText}>{`지출 내역 for ${selectedDate}`}</Text>
+            <FlatList
+              data={expenseData[selectedDate]}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderExpenseItem}
+            />
+          </View>
+        )}
+        {!expenseData && (
+          <Text style={{ textAlign: 'center' }}>지출 내역이 없습니다.</Text>
+        )}
       </View>
     </View>
   );
-};
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -120,14 +100,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.8,
     shadowRadius: 4,
-  },
-  expenseListContainer: {
-    marginTop: 16,
-  },
-  titleText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10,
   },
   expenseItem: {
     flexDirection: 'row',
@@ -139,21 +111,13 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 16,
   },
-  amountText: {
-    fontSize: 16,
+  titleText: {
+    fontSize: 18,
     fontWeight: 'bold',
-  },
-  container2: {
-    backgroundColor: "#ffffff",
-  },
-  emoji: {
-    fontSize: 36,
     marginVertical: 10,
   },
-  image: {
-    width: 100,
-    height: 100,
-    resizeMode: 'contain',
+  container2: {
+    backgroundColor: '#ffffff',
   },
 });
 

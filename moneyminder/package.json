@@ -16,14 +16,20 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@react-navigation/stack": "^6.3.20",
     "app-loading": "^0.0.51",
-    "expo": "^50.0.3",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "destroy": "^1.2.0",
+    "events": "^3.3.0",
+    "expo": "~50.0.6",
     "expo-app-loading": "^2.1.1",
     "expo-font": "^11.10.2",
     "expo-local-authentication": "~13.8.0",
     "expo-status-bar": "~1.11.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "metro-config": "^0.80.4",
     "react": "18.2.0",
-    "react-native": "^0.73.2",
+    "react-native": "^0.73.4",
     "react-native-biometrics": "^3.0.1",
     "react-native-calendars": "^1.1303.0",
     "react-native-chart-kit": "^6.12.0",
@@ -31,16 +37,20 @@
     "react-native-gesture-handler": "^2.14.1",
     "react-native-gifted-charts": "^1.4.3",
     "react-native-keychain": "^8.1.2",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-pagination": "^1.5.5",
-    "react-native-reanimated": "^3.6.1",
+    "react-native-reanimated": "~3.6.2",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^14.1.0",
     "react-native-touch-id": "^4.4.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "http-proxy-middleware": "^2.0.6"
   },
   "private": true
+  
 }
