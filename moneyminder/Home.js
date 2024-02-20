@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'react-native';
 import Expense from './Expense';
 import MyCalendar from './Calendar';
+import Chatting from './Chatting';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Tab = createBottomTabNavigator();
@@ -22,7 +23,7 @@ function CalendarScreen() {
 }
 
 function MessageScreen() {
-  return <Text>chatting</Text>;
+  return <Chatting/>;
 }
 
 function BottomTabNavigationApp() {
@@ -63,7 +64,7 @@ function BottomTabNavigationApp() {
         }}
       />
       <Tab.Screen
-        name="chatting"
+        name="Chatting"
         component={MessageScreen}
         options={{
           title: '채팅',
