@@ -3,8 +3,7 @@ import { Calendar as RNCalendar } from 'react-native-calendars';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import ExpenseModel from './frontendExpenseModel'; // 실제 파일 경로로 수정 필요
 import axios from 'axios';
-
-
+import { Ionicons } from '@expo/vector-icons';
 
 const getCategoryEmoji = (category) => {
   switch (category) {
@@ -19,7 +18,7 @@ const getCategoryEmoji = (category) => {
   }
 };
 
-const Calendar = () => {
+const Calendar = ({ navigation }) => {
   const [data, setData] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [expenseData, setExpenseData] = useState([]);
@@ -44,8 +43,8 @@ const Calendar = () => {
     console.log("-----fetchUrl--------");
 
     try {
-      console.log(`http://172.20.10.2:8080/api/account/` + `${selectedDate}` + `/` + `1`);
-      const baseURL = `http://172.20.10.2:8080/api/account/` + `${selectedDate}` + `/` + `1`;
+      console.log(`http://192.168.219.100:8080/api/account/` + `${selectedDate}` + `/` + `1`);
+      const baseURL = `http://192.168.219.100:8080/api/account/` + `${selectedDate}` + `/` + `1`;
       const response = await axios.get(baseURL);
       setExpenseData(response.data);
       const json = response.data;
@@ -90,6 +89,8 @@ const Calendar = () => {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
