@@ -29,6 +29,7 @@
     "fs": "^0.0.1-security",
     "metro-config": "^0.80.4",
     "react": "18.2.0",
+    "react-kr-typing-anim": "^0.1.0",
     "react-native": "^0.73.4",
     "react-native-biometrics": "^3.0.1",
     "react-native-calendars": "^1.1303.0",
@@ -36,6 +37,7 @@
     "react-native-charts-wrapper": "^0.6.0",
     "react-native-gesture-handler": "^2.14.1",
     "react-native-gifted-charts": "^1.4.3",
+    "react-native-gifted-chat": "^2.4.0",
     "react-native-keychain": "^8.1.2",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-pagination": "^1.5.5",
@@ -52,5 +54,4 @@
     "http-proxy-middleware": "^2.0.6"
   },
   "private": true
-  
 }
