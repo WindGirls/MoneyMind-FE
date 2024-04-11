@@ -4,6 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Expense from './Expense';
 import MyCalendar from './Calendar';
+import Login from './Login';
 import Chatting from './Chatting';
 import ChatBot from './ChatBot';
 import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
@@ -11,6 +12,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import chatimage from './assets/images/chatbot.png';
 
 const Tab = createBottomTabNavigator();
+
+
+function HomeScreen() {
+  return <Login />;
 
 function HomeScreen({ navigation }) {
   return (
@@ -31,6 +36,7 @@ function HomeScreen({ navigation }) {
       </View>
     </View>
   );
+
 }
 
 
