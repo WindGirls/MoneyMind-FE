@@ -11,12 +11,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Expense from './Expense';
 import Home from './Home';
+
 import R_emotions from './R_emotions';
+import Chatting from './Chatting';
+import ChatBot from './ChatBot';
+import Constants from 'expo-constants';
 import * as Font from 'expo-font';
 import R_memo from './R_memo';
 import R_bloom from './R_bloom';
 import R_insight from './R_insight';
 import Login from './Login';
+
 
 
 const Stack = createStackNavigator();
@@ -27,9 +32,38 @@ const fetchFonts = () => {
   });
 };
 
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [fontLoaded, setFontLoaded] = useState(false);
+
+  const [data, setData] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (!Constants) {
+  //         console.error('Constants is null or undefined');
+  //         return;
+  //       }
+  //       const { manifest } = Constants;
+  //       console.log(manifest);
+  //       if (!manifest) {
+  //         console.error('Manifest is null or undefined');
+  //         return;
+  //       }
+
+  //       const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:8080/api/account/test`;
+  //       const response = await axios.get(baseURL);
+  //       setData(response.data);
+  //       console.log('Response:', response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -49,7 +83,7 @@ export default function App() {
 
   if (!fontLoaded) {
     return <AppLoading />;
-    
+
   }
 
   return (
@@ -62,7 +96,8 @@ export default function App() {
         <Stack.Screen name = "R_memo" component={R_memo}/>
         <Stack.Screen name = "R_bloom" component={R_bloom}/>
         <Stack.Screen name = "R_insight" component={R_insight}/>
-
+        <Stack.Screen name="Chatting" component={Chatting} />
+        <Stack.Screen name="ChatBot" component={ChatBot} />
 
         {/* 추가 스크린은 여기에 계속해서 등록하면 됩니다. */}
       </Stack.Navigator>
