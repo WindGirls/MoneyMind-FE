@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Expense from './Expense';
 import Home from './Home';
+import Chatting from './Chatting';
+import ChatBot from './ChatBot';
 import Constants from 'expo-constants';
 
 import * as Font from 'expo-font';
@@ -26,31 +28,31 @@ export default function App() {
 
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-      const fetchData = async () => {
-          try {
-              if (!Constants) {
-                  console.error('Constants is null or undefined');
-                  return;
-              }
-              const { manifest } = Constants;
-              console.log(manifest);
-              if (!manifest) {
-                  console.error('Manifest is null or undefined');
-                  return;
-              }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (!Constants) {
+  //         console.error('Constants is null or undefined');
+  //         return;
+  //       }
+  //       const { manifest } = Constants;
+  //       console.log(manifest);
+  //       if (!manifest) {
+  //         console.error('Manifest is null or undefined');
+  //         return;
+  //       }
 
-              const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:8080/api/account/test`;
-              const response = await axios.get(baseURL);
-              setData(response.data);
-              console.log('Response:', response.data);
-          } catch (error) {
-              console.error('Error fetching data:', error);
-          }
-      };
+  //       const baseURL = `http://${manifest.debuggerHost.split(':').shift()}:8080/api/account/test`;
+  //       const response = await axios.get(baseURL);
+  //       setData(response.data);
+  //       console.log('Response:', response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-      fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -70,7 +72,7 @@ export default function App() {
 
   if (!fontLoaded) {
     return <AppLoading />;
-    
+
   }
 
   return (
@@ -78,6 +80,8 @@ export default function App() {
       <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Expense" component={Expense} />
+        <Stack.Screen name="Chatting" component={Chatting} />
+        <Stack.Screen name="ChatBot" component={ChatBot} />
         {/* 추가 스크린은 여기에 계속해서 등록하면 됩니다. */}
       </Stack.Navigator>
     </NavigationContainer>
