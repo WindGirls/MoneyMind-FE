@@ -13,33 +13,23 @@ import chatimage from './assets/images/chatbot.png';
 
 const Tab = createBottomTabNavigator();
 
-
-function HomeScreen() {
-  return <Login />;
-
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 30, fontWeight: "900" }}>메인</Text>
-        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: "500" }}>메인</Text>
-        <Text style={{ fontSize: 18, fontWeight: "500" }}>메인</Text>
+        <Login/>
       </View>
       <View style={{ flex: 1, width: '100%', alignItems: 'flex-end', justifyContent: 'flex-end', paddingBottom: 20, paddingRight: 20 }}>
         <TouchableOpacity
           style={{ height: 60, width: 60, borderRadius: 70, backgroundColor: '#4169e1', alignItems: 'center', justifyContent: 'center' }}
           onPress={() => navigation.navigate('ChatBot')}
         >
-         
           <Image source={chatimage} style={{ width: 60, borderRadius: 70,height: 60 }} />
         </TouchableOpacity>
       </View>
     </View>
   );
-
 }
-
-
 
 function SearchScreen() {
   return <Expense />;
@@ -52,8 +42,6 @@ function CalendarScreen() {
 function MessageScreen() {
   return <Chatting />;
 }
-
-
 
 function BottomTabNavigationApp() {
   return (
@@ -94,7 +82,7 @@ function BottomTabNavigationApp() {
       />
       <Tab.Screen
         name="Chatting"
-        component={Chatting}
+        component={MessageScreen}
         options={{
           title: '채팅',
           tabBarIcon: ({ color, size }) => (
@@ -102,16 +90,10 @@ function BottomTabNavigationApp() {
           ),
         }}
       />
-     
     </Tab.Navigator>
   );
 }
 
 export default BottomTabNavigationApp;
 
-
-
-
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create({}); 

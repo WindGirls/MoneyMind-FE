@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-
-
-
-// config.apiUrl을 사용하여 API 요청 보내기 등에 사용
-
 import AppLoading from 'expo-app-loading';
 import { StyleSheet, View, SafeAreaView, Image, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -72,7 +67,7 @@ export default function App() {
         setFontLoaded(true);
       } catch (error) {
         console.error("Font loading error:", error);
-        // 필요한 에러 처리를 수행할 수 있습니다.
+        
       } finally {
         setLoading(false);
       }
@@ -99,7 +94,7 @@ export default function App() {
         <Stack.Screen name="Chatting" component={Chatting} />
         <Stack.Screen name="ChatBot" component={ChatBot} />
 
-        {/* 추가 스크린은 여기에 계속해서 등록하면 됩니다. */}
+      
       </Stack.Navigator>
     </NavigationContainer>
   );
