@@ -5,12 +5,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'react-native';
 import Expense from './Expense';
 import MyCalendar from './Calendar';
+import Login from './Login';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
-  return <Text>Home</Text>;
+  return <Login />;
 }
 
 function SearchScreen() {
